@@ -63,21 +63,18 @@ app.use("/upload", upload.array('image', 5), (req, res) => {
 })
 
 
-app.use('/update', (req, res) => {
+app.post('/update', upload.array('image', 5), (req, res) => {
     try {
-        console.log('reached at update');
-        console.log(req.files);
         const newImage = req.files;
-        console.log(req.query);
+        const uniqueName = req.body.text
 
-
-        const uniqueName = req.body.uniqueImageName
-        console.log(uniqueName);
 
         const existingImagePath = path.join(__dirname, 'public', uniqueName);
+
         if (!fs.existsSync(existingImagePath)) {
             return res.status(404).json({ message: 'Image not found' });
         }
+        console.log('reached at update');
         fs.unlinkSync(existingImagePath);
 
         const imageDatas = [];
