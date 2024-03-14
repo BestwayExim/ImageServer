@@ -16,6 +16,7 @@ const helmet = require('helmet');
 app.use(helmet());
 
 app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 dotenv.config({ path: "/.env" });
 
