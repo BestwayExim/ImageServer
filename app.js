@@ -84,7 +84,7 @@ app.post('/update', upload.array('image', 5), (req, res) => {
             const imagePath = path.join(__dirname, 'public', uniqueName);
             fs.writeFileSync(imagePath, file.buffer);
 
-            const imageUrl = `${process.env.BASE_URL}/${uniqueName}`;
+            const imageUrl = `/${uniqueName}`;
 
             const fileInfo = {
                 filename: uniqueName,
