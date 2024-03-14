@@ -25,8 +25,8 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(morgan("dev"));
 
 
-app.use("/upload", upload.array('image', 5), (req, res) => {
-    console.log('reached in upload');
+app.post("/upload", upload.array('image', 5), (req, res) => {
+    console.log('reached in upload function');
     try {
         console.log('reached here');
         console.log(req.files);
@@ -39,7 +39,7 @@ app.use("/upload", upload.array('image', 5), (req, res) => {
             fs.writeFileSync(imagePath, file.buffer);
 
 
-            const imageUrl = `${process.env.BASE_URL}/${uniqueName}`;
+            const imageUrl = `/${uniqueName}`;
 
             const fileInfo = {
                 filename: uniqueName,
