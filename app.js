@@ -17,7 +17,6 @@ app.use(helmet());
 
 app.use(express.static('public'));
 
-
 dotenv.config({ path: "/.env" });
 
 app.use(bodyParser.json({ limit: "1000mb", extended: true }));
@@ -26,7 +25,7 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(morgan("dev"));
 
 
-app.post("/upload", upload.array('image', 5), (req, res) => {
+app.post("/upload", upload.any(), (req, res) => {
     console.log('reached in upload function');
     try {
         console.log('reached here');
@@ -41,7 +40,7 @@ app.post("/upload", upload.array('image', 5), (req, res) => {
 
 
             const imageUrl = `/${uniqueName}`;
-
+            const fieldName = file.fieldname
             const fileInfo = {
                 filename: uniqueName,
                 mimetype: file.mimetype,
@@ -50,7 +49,7 @@ app.post("/upload", upload.array('image', 5), (req, res) => {
                 url: imageUrl
             };
 
-            imageDatas.push({ imageUrl, hash, uniqueName })
+            imageDatas.push({ imageUrl, hash, uniqueName, fieldName })
             console.log('Image saved successfully:', uniqueName);
             console.log('Hash key:', hash);
         });
@@ -64,7 +63,7 @@ app.post("/upload", upload.array('image', 5), (req, res) => {
 })
 
 
-app.post('/update', upload.array('image', 5), (req, res) => {
+app.post('/update', upload.any(), (req, res) => {
     try {
         const newImage = req.files;
         const uniqueName = req.body.text
@@ -86,6 +85,7 @@ app.post('/update', upload.array('image', 5), (req, res) => {
             fs.writeFileSync(imagePath, file.buffer);
 
             const imageUrl = `/${uniqueName}`;
+            const fieldName = file.fieldname
 
             const fileInfo = {
                 filename: uniqueName,
@@ -95,7 +95,7 @@ app.post('/update', upload.array('image', 5), (req, res) => {
                 url: imageUrl
             };
 
-            imageDatas.push({ imageUrl, hash, uniqueName })
+            imageDatas.push({ imageUrl, hash, uniqueName, fieldName })
             console.log('Image saved successfully:', uniqueName);
             console.log('Hash key:', hash);
         });
