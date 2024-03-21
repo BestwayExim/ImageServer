@@ -29,7 +29,6 @@ app.post("/upload", upload.any(), (req, res) => {
     console.log('reached in upload function');
     try {
         console.log('reached here');
-        console.log(req.files);
 
         const imageDatas = [];
         req.files.forEach(file => {
@@ -65,17 +64,30 @@ app.post("/upload", upload.any(), (req, res) => {
 
 app.post('/update', upload.any(), (req, res) => {
     try {
+        console.log(req.files);
+
         const newImage = req.files;
         const uniqueName = req.body.text
 
 
         const existingImagePath = path.join(__dirname, 'public', uniqueName);
+        console.log(existingImagePath);
 
-        if (!fs.existsSync(existingImagePath)) {
-            return res.status(404).json({ message: 'Image not found' });
+        
+        try {
+            if (!fs.existsSync(existingImagePath)) {
+                return res.status(404).json({ message: 'Image not found' });
+            }
+
+
+            fs.unlinkSync(existingImagePath);
+
+            console.log('File deleted successfully');
+
+        } catch (err) {
+            console.error('Error:', err);
+            return res.status(500).json({ message: 'Failed to delete file', error: err });
         }
-        console.log('reached at update');
-        fs.unlinkSync(existingImagePath);
 
         const imageDatas = [];
         req.files.forEach(file => {
