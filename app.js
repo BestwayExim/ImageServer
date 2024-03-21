@@ -84,7 +84,7 @@ app.post('/update', upload.any(), (req, res) => {
             fs.unlinkSync(existingImagePath);
 
             console.log('File deleted successfully');
-            return res.status(200).json({ message: 'File deleted successfully' });
+            
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ message: 'Failed to delete file', error: err });
