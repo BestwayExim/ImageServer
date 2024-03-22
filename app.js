@@ -65,18 +65,15 @@ app.post("/upload", upload.any(), (req, res) => {
 app.post('/update', upload.any(), (req, res) => {
     try {
 
-
-
         const newImage = req.files;
         const uniqueName = req.body.text
 
         const existingImagePath = path.join(__dirname, 'public', uniqueName);
-        console.log('Existing Image Path:', existingImagePath);
-
+        
         try {
             if (!fs.existsSync(existingImagePath)) {
                 console.log('Image not found');
-                return res.status(404).json({ message: 'Image not found' });
+                // return res.status(404).json({ message: 'Image not found' });
             }
 
             console.log('Reached here');
@@ -84,7 +81,7 @@ app.post('/update', upload.any(), (req, res) => {
             fs.unlinkSync(existingImagePath);
 
             console.log('File deleted successfully');
-            
+
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ message: 'Failed to delete file', error: err });
