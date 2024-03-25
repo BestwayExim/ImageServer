@@ -30,7 +30,7 @@ app.post("/upload", upload.any(), (req, res) => {
     try {
 
         const imageDatas = [];
-        req.files.forEach(file => {
+        req?.files?.forEach(file => {
             const uniqueName = Date.now() + '-' + file.originalname;
             const hash = crypto.createHash('md5').update(uniqueName).digest('hex');
             const imagePath = path.join(__dirname, 'public', uniqueName);
@@ -90,7 +90,7 @@ app.post('/update', upload.any(), (req, res) => {
 
 
         const imageDatas = [];
-        req.files.forEach(file => {
+        req?.files?.forEach(file => {
             const uniqueName = Date.now() + '-' + file.originalname;
             const hash = crypto.createHash('md5').update(uniqueName).digest('hex');
             const imagePath = path.join(__dirname, 'public', uniqueName);
