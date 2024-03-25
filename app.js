@@ -28,7 +28,6 @@ app.use(morgan("dev"));
 app.post("/upload", upload.any(), (req, res) => {
     console.log('reached in upload function');
     try {
-        console.log('reached here');
 
         const imageDatas = [];
         req.files.forEach(file => {
@@ -67,6 +66,9 @@ app.post('/update', upload.any(), (req, res) => {
 
         const newImage = req.files;
         const uniqueNames = req.body.text
+
+        console.log(uniqueNames);
+
 
         uniqueNames.forEach(uniqueName => {
             const existingImagePath = path.join(__dirname, 'public', uniqueName);
