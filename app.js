@@ -66,26 +66,26 @@ app.post('/update', upload.any(), (req, res) => {
     try {
 
         const newImage = req.files;
-        const uniqueName = req.body.text
+        const uniqueNames = req.body.text
 
-        const existingImagePath = path.join(__dirname, 'public', uniqueName);
-        
-        try {
-            if (!fs.existsSync(existingImagePath)) {
-                console.log('Image not found');
-                // return res.status(404).json({ message: 'Image not found' });
+        uniqueNames.forEach(uniqueName => {
+            const existingImagePath = path.join(__dirname, 'public', uniqueName);
+            try {
+                if (!fs.existsSync(existingImagePath)) {
+                    console.log('Image not found');
+                    // return res.status(404).json({ message: 'Image not found' });
+                }
+                fs.unlinkSync(existingImagePath);
+
+                console.log('File deleted successfully');
+
+            } catch (err) {
+                console.error('Error:', err);
+                return res.status(500).json({ message: 'Failed to delete file', error: err });
             }
+        })
 
-            console.log('Reached here');
 
-            fs.unlinkSync(existingImagePath);
-
-            console.log('File deleted successfully');
-
-        } catch (err) {
-            console.error('Error:', err);
-            return res.status(500).json({ message: 'Failed to delete file', error: err });
-        }
 
         const imageDatas = [];
         req.files.forEach(file => {
