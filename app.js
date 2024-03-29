@@ -20,6 +20,12 @@ app.use(express.static('public'));
 
 dotenv.config({ path: "/.env" });
 
+app.use((req, res, next) => {
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin"); 
+    next();
+});
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: 'http://image.theowpc.com', credentials: true }));
 app.use(bodyParser.json({ limit: "1000mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "1000mb", extended: true }));
 app.use(cors({ origin: true, credentials: true }));
