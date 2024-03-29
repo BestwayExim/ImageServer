@@ -11,9 +11,10 @@ const bodyParser = require("body-parser");
 const upload = require('./middlware/multer')
 const crypto = require('crypto')
 
-
 const helmet = require('helmet');
-app.use(helmet());
+
+
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 app.use(express.static('public'));
 
